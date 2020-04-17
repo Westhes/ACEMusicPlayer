@@ -1,12 +1,12 @@
 apply plugin: 'android-library'
 android {
-    compileSdkVersion 20
+    compileSdkVersion 26
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        applicationId "com.andraskindler.quickscroll"
+//        applicationId "com.andraskindler.quickscroll"
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 26
     }
     lintOptions {
         abortOnError false

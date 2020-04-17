@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 26
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        applicationId "com.squareup.picasso"
+//        applicationId "com.squareup.picasso"
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }

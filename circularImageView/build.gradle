@@ -1,12 +1,12 @@
 apply plugin: 'android-library'
 android {
-    compileSdkVersion 20
+    compileSdkVersion 26
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.mikhaellopez.circularimageview"
-        minSdkVersion 11
-        targetSdkVersion 19
+//        applicationId "com.mikhaellopez.circularimageview"
+        minSdkVersion 14
+        targetSdkVersion 26
     }
 
     buildTypes {
