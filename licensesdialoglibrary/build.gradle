@@ -2,11 +2,10 @@ apply plugin: 'android-library'
 
 android {
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 19
+        minSdkVersion 21
+        targetSdkVersion 26
     }
 
     buildTypes {

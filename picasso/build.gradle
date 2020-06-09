@@ -2,11 +2,10 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '20.0.0'
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 19
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -22,9 +21,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('libs/annotations-12.0.jar')
-    compile files('libs/okhttp-2.0.0.jar')
-    compile files('libs/okhttp-urlconnection-1.6.0.jar')
-    compile files('libs/okio-1.0.0.jar')
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api files('libs/annotations-12.0.jar')
+    api files('libs/okhttp-2.0.0.jar')
+    api files('libs/okhttp-urlconnection-1.6.0.jar')
+    api files('libs/okio-1.0.0.jar')
 }
