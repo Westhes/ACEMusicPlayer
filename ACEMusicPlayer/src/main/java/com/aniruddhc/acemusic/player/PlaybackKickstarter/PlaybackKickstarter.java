@@ -96,7 +96,7 @@ public class PlaybackKickstarter implements NowPlayingActivityListener, PrepareS
 							 boolean showNowPlayingActivity,
                              boolean playAll) {
 
-		mApp = (Common) mContext.getApplicationContext();
+		mApp = (Common) context.getApplicationContext();
 		mQuerySelection = querySelection;
 		mPlaybackRouteId = playbackRouteId;
 		mCurrentSongIndex = currentSongIndex;
@@ -107,7 +107,7 @@ public class PlaybackKickstarter implements NowPlayingActivityListener, PrepareS
 			Intent intent = new Intent(mContext, NowPlayingActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			intent.putExtra(NowPlayingActivity.START_SERVICE, true);
-			mContext.startActivity(intent);
+			context.startActivity(intent);
 			
 		} else {
 			//Start the playback service if it isn't running.
