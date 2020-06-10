@@ -32,7 +32,7 @@ public class JsonFormTest {
 
     @Test
     public void assertInsertMultiple() throws IOException {
-        Map<String, String> map = new HashMap();
+        Map<String, String> map = new HashMap<>();
         map.put("a", "1");
         map.put("b", "2");
         jsonForm.addFields(map);

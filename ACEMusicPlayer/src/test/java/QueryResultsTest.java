@@ -1,44 +1,46 @@
 import com.aniruddhc.acemusic.player.GMusicHelpers.QueryResults;
 import com.aniruddhc.acemusic.player.GMusicHelpers.WebClientSongsSchema;
-import com.google.api.client.json.JsonParser;
 
-import org.json.JSONException;
-//import org.json.JSONObject;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
 public class QueryResultsTest {
-    QueryResults queryResults = new QueryResults();
-    ArrayList<WebClientSongsSchema> songsSchemas = new ArrayList<>();
-    String jsonString = "{\"artists\":[" +
-                "\"artistA\"," +
-                "\"artistB\"," +
-                "\"artistC\"]," +
-            "\"albums\":["+
-                "\"albumA\"," +
-                "\"albumB\"," +
-                "\"albumC\"]," +
-            "\"songs\":[" +
-                "\"songA\"," +
-                "\"songB\"," +
-                "\"songC\"]" +
-            "}";
+    private QueryResults queryResults = new QueryResults();
+    private ArrayList<WebClientSongsSchema> songsSchemas = new ArrayList<>();
+
+    private String[] songNames = {"a", "b", "c"};
+    private String[] artists = {"artistA", "artistB", "artistC"};
+    private String[] albums = {"albumA", "albumB", "albumC"};
 
     @Before
-    public void setup() throws JSONException {
-//        JsonParser parser = new JSONParser();
-//        JSONObject json = new JSONObject(jsonString);
-        JSONObject json = new JSONObject();
-        queryResults.fromJsonObject(json);
+    public void setup() {
+        for (int i = 0; i < songNames.length; i++) {
+            WebClientSongsSchema song = new WebClientSongsSchema();
+
+            song.setTitle(songNames[i]);
+            song.setArtist(artists[i]);
+            song.setAlbum(albums[i]);
+
+            songsSchemas.add(song);
+        }
+
+        queryResults.setWebClientSongsSchemas(songsSchemas);
+        queryResults.setArtists(songsSchemas);
+        queryResults.setAlbums(songsSchemas);
     }
 
     @Test
-    public void test() {
-        ArrayList arr = queryResults.getArtists();
+    public void whenGetArtists_returnsCorrectArtistsInCorrectOrder() {
+        ArrayList<WebClientSongsSchema> artists = queryResults.getArtists();
 
-        System.out.println("");
+        for (int i = 0; i < songNames.length; i++) {
+            assertEquals(songNames[i], artists.get(i).getTitle());
+            assertEquals(this.artists[i], artists.get(i).getArtist());
+            assertEquals(albums[i], artists.get(i).getAlbum());
+        }
     }
 }
