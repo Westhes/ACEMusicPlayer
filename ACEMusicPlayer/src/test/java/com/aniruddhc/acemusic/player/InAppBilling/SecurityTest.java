@@ -63,7 +63,7 @@ public class SecurityTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void whenGeneratePublicKey_incorrectlyFormattedKey_throwsException() {
-        Security.generatePublicKey("pubKeyString");
+        Security.generatePublicKey("incorrectly encoded public key");
     }
 
     @Test
