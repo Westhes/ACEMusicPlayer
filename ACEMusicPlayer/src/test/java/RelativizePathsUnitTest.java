@@ -26,7 +26,7 @@ public class RelativizePathsUnitTest {
 
         String response = RelativizePaths.convertToRelativePath(path, relativeTo);
 
-        Assert.assertEquals(response, expectedResult);
+        Assert.assertEquals(expectedResult, response);
     }
 
     /**
@@ -39,7 +39,7 @@ public class RelativizePathsUnitTest {
         expectedResult = "../../";
 
         String response = RelativizePaths.convertToRelativePath(path, relativeTo);
-        Assert.assertEquals(response, expectedResult);
+        Assert.assertEquals(expectedResult, response);
     }
 
     /**
@@ -53,7 +53,7 @@ public class RelativizePathsUnitTest {
 
         String response = RelativizePaths.convertToRelativePath(path, relativeTo);
 
-        Assert.assertEquals(response, expectedResult);
+        Assert.assertEquals(expectedResult, response);
     }
 
     /**
@@ -66,7 +66,7 @@ public class RelativizePathsUnitTest {
 
         String response = RelativizePaths.convertToRelativePath(path, relativeTo);
 
-        Assert.assertEquals(response, expectedResult);
+        Assert.assertEquals(expectedResult, response);
     }
 
     /**
@@ -79,6 +79,6 @@ public class RelativizePathsUnitTest {
 
         String response = RelativizePaths.convertToRelativePath(path, relativeTo);
 
-        Assert.assertEquals(response, expectedResult);
+        Assert.assertEquals(expectedResult, response);
     }
 }
