@@ -28,11 +28,12 @@ public class EaseInOutInterpolatorTest {
         EaseInOutInterpolator in = new EaseInOutInterpolator(EaseInOutInterpolator.EasingType.Type.IN);
         EaseInOutInterpolator out = new EaseInOutInterpolator(EaseInOutInterpolator.EasingType.Type.OUT);
 
-        float response = 0f;
-        response += in.getInterpolation(0.5f);
-        response += out.getInterpolation(0.5f);
+        float inResponse = in.getInterpolation(0.5f);
+        float outResponse = out.getInterpolation(0.5f);
 
-        Assert.assertEquals(expected, response, 0.0f);
+
+        Assert.assertEquals(expected - outResponse, inResponse, 0f);
+        Assert.assertEquals(expected - inResponse, outResponse, 0f);
     }
 
     @Test
