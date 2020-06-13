@@ -44,15 +44,15 @@ public class AddToPlaylistDialog extends DialogFragment {
 	private String ALBUM_ARTIST;
 	private String SONG;
 	private String GENRE;
-	
+
 	@Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-		
+
 		mContext = getActivity().getApplicationContext();
-		
+
 		//Retrieve the arguments.
 		ADD_TYPE = getArguments().getString("ADD_TYPE");
-		
+
 		if (ADD_TYPE.equals("ARTIST")) {
 			ARTIST = getArguments().getString("ARTIST");
 		} else if (ADD_TYPE.equals("ALBUM_ARTIST")) {
@@ -70,49 +70,52 @@ public class AddToPlaylistDialog extends DialogFragment {
 			ALBUM = getArguments().getString("ALBUM");
 			ALBUM_ARTIST = getArguments().getString("ALBUM_ARTIST");
 		}
-		
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String columns[] = { DBAccessHelper.PLAYLIST_NAME, DBAccessHelper._ID,
         					 DBAccessHelper.PLAYLIST_FILE_PATH, DBAccessHelper.PLAYLIST_SOURCE,
         					 DBAccessHelper.PLAYLIST_ID };
-        MatrixCursor matrixCursor = new MatrixCursor(columns);
-        matrixCursor.addRow(new String[] { getActivity().getResources().getString(R.string.new_playlist), "0", "0", "0", "0" });
-        
-        DBAccessHelper playlistsDBHelper = new DBAccessHelper(getActivity()
-        																				    .getApplicationContext());
-        Cursor userPlaylistsCursor = playlistsDBHelper.getAllSongsInAlbum(null, null);
-        final MergeCursor mergeCursor = new MergeCursor(new Cursor[] { matrixCursor, userPlaylistsCursor });
-        
-        //Set the dialog title.
+
+		final MergeCursor mergeCursor;
+		try (MatrixCursor matrixCursor = new MatrixCursor(columns)) {
+			matrixCursor.addRow(new String[]{getActivity().getResources().getString(R.string.new_playlist), "0", "0", "0", "0"});
+
+			DBAccessHelper playlistsDBHelper = new DBAccessHelper(getActivity().getApplicationContext());
+
+			Cursor userPlaylistsCursor = playlistsDBHelper.getAllSongsInAlbum(null, null);
+			mergeCursor = new MergeCursor(new Cursor[]{matrixCursor, userPlaylistsCursor});
+		}
+
+		//Set the dialog title.
         builder.setTitle(R.string.add_to_playlist);
         builder.setCursor(mergeCursor, new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				//Index 0 is the dummy playlist that will open the "New Playlist" dialog.
-				if (which==0) {
-					showNewPlaylistDialog();
-				} else {
-					mergeCursor.moveToPosition(which);
-					String playlistName = mergeCursor.getString(mergeCursor.getColumnIndex(DBAccessHelper.PLAYLIST_NAME));
-					String playlistId = mergeCursor.getString(mergeCursor.getColumnIndex(DBAccessHelper.PLAYLIST_ID));
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					//Index 0 is the dummy playlist that will open the "New Playlist" dialog.
+					if (which==0) {
+						showNewPlaylistDialog();
+					} else {
+						mergeCursor.moveToPosition(which);
+						String playlistName = mergeCursor.getString(mergeCursor.getColumnIndex(DBAccessHelper.PLAYLIST_NAME));
+						String playlistId = mergeCursor.getString(mergeCursor.getColumnIndex(DBAccessHelper.PLAYLIST_ID));
 
-					AsyncAddSongsToPlaylistTask task = new AsyncAddSongsToPlaylistTask(mContext,
-																					   playlistName,
-																					   playlistId,
-																					   ARTIST,
-																					   ALBUM,
-																					   SONG,
-																					   GENRE,
-																					   ALBUM_ARTIST, 
-																					   ADD_TYPE);
-					task.execute();
-					
+						AsyncAddSongsToPlaylistTask task = new AsyncAddSongsToPlaylistTask(mContext,
+																						   playlistName,
+																						   playlistId,
+																						   ARTIST,
+																						   ALBUM,
+																						   SONG,
+																						   GENRE,
+																						   ALBUM_ARTIST,
+																						   ADD_TYPE);
+						task.execute();
+
+					}
+
 				}
-				
-			}
-        	
-        }, DBAccessHelper.PLAYLIST_NAME);
+
+        	}, DBAccessHelper.PLAYLIST_NAME);
 
         return builder.create();
     }
@@ -123,7 +126,7 @@ public class AddToPlaylistDialog extends DialogFragment {
 		final EditText newPlaylistEditText = (EditText) dialogView.findViewById(R.id.new_playlist_name_text_field);
 		newPlaylistEditText.setTypeface(TypefaceHelper.getTypeface(getActivity(), "RobotoCondensed-Light"));
 		newPlaylistEditText.setPaintFlags(newPlaylistEditText.getPaintFlags() | Paint.ANTI_ALIAS_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(R.string.new_playlist);
 		builder.setView(dialogView);
@@ -133,32 +136,32 @@ public class AddToPlaylistDialog extends DialogFragment {
 			public void onClick(DialogInterface dialog, int which) {
 				//Retrieve the name of the new playlist.
 				String playlistName = newPlaylistEditText.getText().toString();
-				AsyncCreateNewPlaylistTask task = new AsyncCreateNewPlaylistTask(mContext, 
-																				 playlistName, 
-																				 ARTIST, 
-																				 ALBUM, 
-																				 SONG, 
-																				 GENRE, 
+				AsyncCreateNewPlaylistTask task = new AsyncCreateNewPlaylistTask(mContext,
+																				 playlistName,
+																				 ARTIST,
+																				 ALBUM,
+																				 SONG,
+																				 GENRE,
 																				 ALBUM_ARTIST,
 																				 ADD_TYPE);
 				task.execute();
 				dialog.dismiss();
-				
+
 			}
-			
+
 		});
-		
+
 		builder.setNegativeButton(R.string.cancel, new OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				
+
 			}
-			
+
 		});
-		
+
 		builder.create().show();
 	}
-	
+
 }
