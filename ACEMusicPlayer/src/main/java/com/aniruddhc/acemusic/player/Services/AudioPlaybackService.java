@@ -37,6 +37,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.RemoteControlClient;
+import android.media.audiofx.Equalizer;
 import android.media.audiofx.PresetReverb;
 import android.net.Uri;
 import android.os.Build;
@@ -476,110 +477,26 @@ public class AudioPlaybackService extends Service {
 		int[] eqValues = mApp.getDBAccessHelper().getSongEQValues(songId);
 
 		//50Hz Band.
-		if (eqValues[0]==16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(fiftyHertzBand, (short) 0);
-		} else if (eqValues[0] < 16) {
-			
-			if (eqValues[0]==0) {
-				mEqualizerHelper.getEqualizer().setBandLevel(fiftyHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer().setBandLevel(fiftyHertzBand, (short) (-(16-eqValues[0])*100));
-			}
-			
-		} else if (eqValues[0] > 16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(fiftyHertzBand, (short) ((eqValues[0]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(fiftyHertzBand, eqValues[0], mEqualizerHelper.getEqualizer());
+
 		//130Hz Band.
-		if (eqValues[1]==16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(oneThirtyHertzBand, (short) 0);
-		} else if (eqValues[1] < 16) {
-			
-			if (eqValues[1]==0) {
-				mEqualizerHelper.getEqualizer().setBandLevel(oneThirtyHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer().setBandLevel(oneThirtyHertzBand, (short) (-(16-eqValues[1])*100));
-			}
-			
-		} else if (eqValues[1] > 16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(oneThirtyHertzBand, (short) ((eqValues[1]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(oneThirtyHertzBand, eqValues[1], mEqualizerHelper.getEqualizer());
+
 		//320Hz Band.
-		if (eqValues[2]==16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(threeTwentyHertzBand, (short) 0);
-		} else if (eqValues[2] < 16) {
-			
-			if (eqValues[2]==0) {
-				mEqualizerHelper.getEqualizer().setBandLevel(threeTwentyHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer().setBandLevel(threeTwentyHertzBand, (short) (-(16-eqValues[2])*100));
-			}
-			
-		} else if (eqValues[2] > 16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(threeTwentyHertzBand, (short) ((eqValues[2]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(threeTwentyHertzBand, eqValues[2], mEqualizerHelper.getEqualizer());
+
 		//800Hz Band.
-		if (eqValues[3]==16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(eightHundredHertzBand, (short) 0);
-		} else if (eqValues[3] < 16) {
-			
-			if (eqValues[3]==0) {
-				mEqualizerHelper.getEqualizer().setBandLevel(eightHundredHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer().setBandLevel(eightHundredHertzBand, (short) (-(16-eqValues[3])*100));
-			}
-			
-		} else if (eqValues[3] > 16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(eightHundredHertzBand, (short) ((eqValues[3]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(eightHundredHertzBand, eqValues[3], mEqualizerHelper.getEqualizer());
+
 		//2kHz Band.
-		if (eqValues[4]==16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(twoKilohertzBand, (short) 0);
-		} else if (eqValues[4] < 16) {
-			
-			if (eqValues[4]==0) {
-				mEqualizerHelper.getEqualizer().setBandLevel(twoKilohertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer().setBandLevel(twoKilohertzBand, (short) (-(16-eqValues[4])*100));
-			}
-			
-		} else if (eqValues[4] > 16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(twoKilohertzBand, (short) ((eqValues[4]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(twoKilohertzBand, eqValues[4], mEqualizerHelper.getEqualizer());
+
 		//5kHz Band.
-		if (eqValues[5]==16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(fiveKilohertzBand, (short) 0);
-		} else if (eqValues[5] < 16) {
-			
-			if (eqValues[5]==0) {
-				mEqualizerHelper.getEqualizer().setBandLevel(fiveKilohertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer().setBandLevel(fiveKilohertzBand, (short) (-(16-eqValues[5])*100));
-			}
-			
-		} else if (eqValues[5] > 16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(fiveKilohertzBand, (short) ((eqValues[5]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(fiveKilohertzBand, eqValues[5], mEqualizerHelper.getEqualizer());
+
 		//12.5kHz Band.
-		if (eqValues[6]==16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(twelvePointFiveKilohertzBand, (short) 0);
-		} else if (eqValues[6] < 16) {
-			
-			if (eqValues[6]==0) {
-				mEqualizerHelper.getEqualizer().setBandLevel(twelvePointFiveKilohertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer().setBandLevel(twelvePointFiveKilohertzBand, (short) (-(16-eqValues[6])*100));
-			}
-			
-		} else if (eqValues[6] > 16) {
-			mEqualizerHelper.getEqualizer().setBandLevel(twelvePointFiveKilohertzBand, (short) ((eqValues[6]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(twelvePointFiveKilohertzBand, eqValues[6], mEqualizerHelper.getEqualizer());
+
 		//Set the audioFX values.
 		mEqualizerHelper.getVirtualizer().setStrength((short) eqValues[7]);
 		mEqualizerHelper.getBassBoost().setStrength((short) eqValues[8]);
@@ -601,7 +518,23 @@ public class AudioPlaybackService extends Service {
 		}
 		
 	}
-	
+
+	private void setBandLevelOnEqualizer(short fiftyHertzBand, int eqValue, Equalizer equalizer) {
+		if (eqValue == 16) {
+			equalizer.setBandLevel(fiftyHertzBand, (short) 0);
+		} else if (eqValue < 16) {
+
+			if (eqValue == 0) {
+				equalizer.setBandLevel(fiftyHertzBand, (short) -1500);
+			} else {
+				equalizer.setBandLevel(fiftyHertzBand, (short) (-(16 - eqValue) * 100));
+			}
+
+		} else {
+			equalizer.setBandLevel(fiftyHertzBand, (short) ((eqValue - 16) * 100));
+		}
+	}
+
 	/**
 	 * Retrieves the EQ values for mMediaPlayer2's current song and 
 	 * applies them to the EQ engine.
@@ -625,110 +558,26 @@ public class AudioPlaybackService extends Service {
 		int[] eqValues = mApp.getDBAccessHelper().getSongEQValues(songId);
 		
 		//50Hz Band.
-		if (eqValues[0]==16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(fiftyHertzBand, (short) 0);
-		} else if (eqValues[0] < 16) {
-			
-			if (eqValues[0]==0) {
-				mEqualizerHelper.getEqualizer2().setBandLevel(fiftyHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer2().setBandLevel(fiftyHertzBand, (short) (-(16-eqValues[0])*100));
-			}
-			
-		} else if (eqValues[0] > 16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(fiftyHertzBand, (short) ((eqValues[0]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(fiftyHertzBand, eqValues[0], mEqualizerHelper.getEqualizer2());
+
 		//130Hz Band.
-		if (eqValues[1]==16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(oneThirtyHertzBand, (short) 0);
-		} else if (eqValues[1] < 16) {
-			
-			if (eqValues[1]==0) {
-				mEqualizerHelper.getEqualizer2().setBandLevel(oneThirtyHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer2().setBandLevel(oneThirtyHertzBand, (short) (-(16-eqValues[1])*100));
-			}
-			
-		} else if (eqValues[1] > 16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(oneThirtyHertzBand, (short) ((eqValues[1]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(oneThirtyHertzBand, eqValues[1], mEqualizerHelper.getEqualizer2());
+
 		//320Hz Band.
-		if (eqValues[2]==16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(threeTwentyHertzBand, (short) 0);
-		} else if (eqValues[2] < 16) {
-			
-			if (eqValues[2]==0) {
-				mEqualizerHelper.getEqualizer2().setBandLevel(threeTwentyHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer2().setBandLevel(threeTwentyHertzBand, (short) (-(16-eqValues[2])*100));
-			}
-			
-		} else if (eqValues[2] > 16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(threeTwentyHertzBand, (short) ((eqValues[2]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(threeTwentyHertzBand, eqValues[2], mEqualizerHelper.getEqualizer2());
+
 		//800Hz Band.
-		if (eqValues[3]==16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(eightHundredHertzBand, (short) 0);
-		} else if (eqValues[3] < 16) {
-			
-			if (eqValues[3]==0) {
-				mEqualizerHelper.getEqualizer2().setBandLevel(eightHundredHertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer2().setBandLevel(eightHundredHertzBand, (short) (-(16-eqValues[3])*100));
-			}
-			
-		} else if (eqValues[3] > 16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(eightHundredHertzBand, (short) ((eqValues[3]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(eightHundredHertzBand, eqValues[3], mEqualizerHelper.getEqualizer2());
+
 		//2kHz Band.
-		if (eqValues[4]==16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(twoKilohertzBand, (short) 0);
-		} else if (eqValues[4] < 16) {
-			
-			if (eqValues[4]==0) {
-				mEqualizerHelper.getEqualizer2().setBandLevel(twoKilohertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer2().setBandLevel(twoKilohertzBand, (short) (-(16-eqValues[4])*100));
-			}
-			
-		} else if (eqValues[4] > 16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(twoKilohertzBand, (short) ((eqValues[4]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(twoKilohertzBand, eqValues[4], mEqualizerHelper.getEqualizer2());
+
 		//5kHz Band.
-		if (eqValues[5]==16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(fiveKilohertzBand, (short) 0);
-		} else if (eqValues[5] < 16) {
-			
-			if (eqValues[5]==0) {
-				mEqualizerHelper.getEqualizer2().setBandLevel(fiveKilohertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer2().setBandLevel(fiveKilohertzBand, (short) (-(16-eqValues[5])*100));
-			}
-			
-		} else if (eqValues[5] > 16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(fiveKilohertzBand, (short) ((eqValues[5]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(fiveKilohertzBand, eqValues[5], mEqualizerHelper.getEqualizer2());
+
 		//12.5kHz Band.
-		if (eqValues[6]==16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(twelvePointFiveKilohertzBand, (short) 0);
-		} else if (eqValues[6] < 16) {
-			
-			if (eqValues[6]==0) {
-				mEqualizerHelper.getEqualizer2().setBandLevel(twelvePointFiveKilohertzBand, (short) -1500);
-			} else {
-				mEqualizerHelper.getEqualizer2().setBandLevel(twelvePointFiveKilohertzBand, (short) (-(16-eqValues[6])*100));
-			}
-			
-		} else if (eqValues[6] > 16) {
-			mEqualizerHelper.getEqualizer2().setBandLevel(twelvePointFiveKilohertzBand, (short) ((eqValues[6]-16)*100));
-		}
-		
+		setBandLevelOnEqualizer(twelvePointFiveKilohertzBand, eqValues[6], mEqualizerHelper.getEqualizer2());
+
 		//Set the audioFX values.
 		mEqualizerHelper.getVirtualizer2().setStrength((short) eqValues[7]);
 		mEqualizerHelper.getBassBoost2().setStrength((short) eqValues[8]);
