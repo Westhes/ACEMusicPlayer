@@ -63,7 +63,6 @@ public class ID3sArtistEditorDialog extends DialogFragment {
 	private static Activity parentActivity;
 	private DialogFragment dialogFragment;
 	private View rootView;
-
 	private EditText titleEditText;
 	private EditText artistEditText;
 	private EditText albumEditText;
@@ -195,13 +194,8 @@ public class ID3sArtistEditorDialog extends DialogFragment {
 		for (int i = 0; i < checkBoxes.length; i++) {
 			int finalI = i;
 			checkBoxes[i].setOnCheckedChangeListener((buttonView, isChecked) -> {
-				if (isChecked) {
-					booleans[finalI] = true;
-					editTexts[finalI].setEnabled(true);
-				} else {
-					booleans[finalI] = false;
-					editTexts[finalI].setEnabled(false);
-				}
+				booleans[finalI] = isChecked;
+				editTexts[finalI].setEnabled(isChecked);
 			});
 		}
 
